@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="${recipe.title} + ' | Java Dapur'">Detail Resep</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-orange-50 min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-orange-500 text-white p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">Java Dapur 🍳</h1>
+    <nav>
+      <a th:href="@{/}" class="hover:underline">Beranda</a>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-grow container mx-auto px-4 py-8">
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-3xl font-bold mb-4" th:text="${recipe.title}">Judul Resep</h2>
+
+      <!-- Foto Resep -->
+      <div class="mb-6">
+        <img th:if="${recipe.photoPath != null}" th:src="@{'/' + ${recipe.photoPath}}" alt="Foto Resep"
+             class="w-full max-w-xl mx-auto rounded-lg shadow border">
+        <p th:if="${recipe.photoPath == null}" class="text-gray-500 italic">Tidak ada foto tersedia.</p>
+      </div>
+
+      <!-- Deskripsi -->
+      <div class="prose">
+        <h3 class="text-xl font-semibold mb-2">Deskripsi</h3>
+        <p th:text="${recipe.description}">Deskripsi resep akan muncul di sini.</p>
+      </div>
+
+      <!-- Langkah-Langkah -->
+      <div th:if="${recipe.instructions != null}">
+        <h3 class="text-xl font-semibold mt-6 mb-2">Langkah-Langkah</h3>
+        <p th:text="${recipe.instructions}"></p>
+      </div>
+
+      <!-- Tombol Kembali -->
+      <div class="mt-8">
+        <a th:href="@{/}" class="inline-block bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">
+          Kembali ke Beranda
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-orange-500 text-white text-center p-4">
+    &copy; 2025 Java Dapur. Semua Hak Dilindungi.
+  </footer>
+
+</body>
+</html>

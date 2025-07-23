@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Java Dapur</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-orange-50 min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-orange-500 text-white p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">Java Dapur 🍳</h1>
+    <nav class="flex items-center space-x-4">
+      <!-- Tombol Tambah Resep -->
+      <a th:href="@{/add}"
+         class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+        Tambah Resep
+      </a>
+
+      <!-- Tombol Logout (POST) -->
+      <form th:action="@{/logout}" method="post">
+        <button type="submit"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+          Logout
+        </button>
+      </form>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-1 container mx-auto px-4 py-6">
+    <h2 class="text-3xl font-bold mb-6 text-orange-600">Resep Terkini</h2>
+
+    <!-- SEARCH -->
+    <form th:action="@{/search}" method="get" class="mb-8 flex">
+      <input type="text" name="keyword" placeholder="Cari resep..."
+        class="flex-1 p-3 border border-gray-300 rounded-l focus:outline-none" />
+      <button type="submit"
+        class="bg-orange-500 text-white px-6 rounded-r hover:bg-orange-600">Cari</button>
+    </form>
+
+    <!-- GRID OF RECIPES -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div th:each="recipe : ${recipes}" class="bg-white rounded shadow hover:shadow-lg p-4 flex flex-col">
+        
+        <!-- Judul -->
+        <h3 class="text-xl font-bold text-orange-700 mb-2" th:text="${recipe.title}"></h3>
+
+        <!-- Foto Resep -->
+        <a th:href="@{'/recipe/' + ${recipe.id}}">
+          <img th:if="${recipe.photoPath != null}" 
+               th:src="@{'/uploads/' + ${recipe.photoPath}}" 
+               alt="Foto Resep"
+               class="w-full h-48 object-cover rounded mb-4 border border-gray-200" />
+          <div th:if="${recipe.photoPath == null}" 
+               class="w-full h-48 bg-gray-200 flex items-center justify-center mb-4 rounded">
+            <span class="text-gray-500 italic">Tidak ada foto</span>
+          </div>
+        </a>
+
+        <!-- Deskripsi singkat -->
+        <p class="mb-2 text-gray-700" th:text="${#strings.abbreviate(recipe.description, 100)}"></p>
+
+        <!-- Tombol Detail -->
+        <a th:href="@{'/recipe/' + ${recipe.id}}"
+          class="mt-auto inline-block bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">
+          Lihat Detail
+        </a>
+      </div>
+    </div>
+
+    <!-- Kosong -->
+    <p th:if="${recipes.size() == 0}" class="text-gray-500 mt-8">Belum ada resep yang tersedia.</p>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-orange-500 text-white text-center p-4">
+    &copy; 2025 Java Dapur. Masak Bersama Lebih Kreatif! 🍲
+  </footer>
+
+</body>
+</html>

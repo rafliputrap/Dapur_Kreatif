@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Tambah Resep</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-orange-50 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-lg">
+    <h2 class="text-2xl font-bold mb-6 text-orange-600">Tambah Resep Baru 🍳</h2>
+    
+    <!-- ✅ enctype wajib! -->
+    <form th:action="@{/add}" th:object="${recipe}" method="post" enctype="multipart/form-data" class="space-y-4">
+      
+      <!-- Blok menampilkan pesan error -->
+      <div th:if="${error}" class="text-red-600 font-semibold">
+        <p th:text="${error}"></p>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Judul:</label>
+        <input type="text" th:field="*{title}" required
+               class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-200" />
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Deskripsi:</label>
+        <textarea th:field="*{description}" required rows="3"
+                  class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-200"></textarea>
+      </div>
+
+      <!-- Upload File -->
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Upload Foto:</label>
+        <input type="file" name="photoFile" required
+               class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-200" />
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Instruksi:</label>
+        <textarea th:field="*{instructions}" required rows="5"
+                  class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-200"></textarea>
+      </div>
+
+      <button type="submit"
+              class="w-full bg-orange-500 text-white p-3 rounded hover:bg-orange-600 font-bold">
+        Simpan Resep
+      </button>
+    </form>
+  </div>
+</body>
+</html>
